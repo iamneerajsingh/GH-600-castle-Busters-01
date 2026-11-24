@@ -1,0 +1,48 @@
+name: Agent task
+description: A task that a Copilot agent can pick up. Fill every box.
+title: "[Agent task]: "
+labels: ["agent-task"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: One or two sentences. What should be true when this is done?
+    validations:
+      required: true
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Inputs
+      description: Files, data or decisions the agent needs.
+    validations:
+      required: true
+  - type: textarea
+    id: outputs
+    attributes:
+      label: Expected outputs
+      description: Files or artifacts the agent must produce.
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: Success criteria
+      description: Measurable checks, for example "all tests pass", "new test for X".
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk level
+      options:
+        - Low - agent may finish alone (docs, tests)
+        - Medium - pull request review required (game code)
+        - High - human approval before action (workflows, release)
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: What the agent must NOT touch.

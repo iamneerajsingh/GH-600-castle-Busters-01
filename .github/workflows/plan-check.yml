@@ -1,0 +1,29 @@
+name: Plan check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  plan-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR description must contain a plan and success criteria
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          missing=0
+          for heading in "## Plan" "## Success criteria"; do
+            if ! grep -qF "$heading" <<< "$PR_BODY"; then
+              echo "::error::Missing '$heading' section in the pull request description."
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            echo "No plan, no merge. Add the missing sections and save the PR description."
+            exit 1
+          fi
+          echo "Plan found. Good to go."
